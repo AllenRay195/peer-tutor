@@ -70,7 +70,7 @@ export default function TutorEditProfilePage() {
     try {
       setSaving(true)
 
-      // 🔥 ENSURE LAST SUBJECT IS SAVED EVEN WITHOUT ENTER
+     
       if (subjectInput.trim()) {
         commitSubject()
       }
