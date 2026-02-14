@@ -5,10 +5,9 @@ import AudienceSection from "@/components/sections/AudienceSection"
 import FinalCTA from "@/components/sections/FinalCTA"
 import Footer from "@/components/sections/Footer"
 
-
 export default function Home() {
   return (
-    <main>
+    <main className="w-full overflow-x-hidden">
       <HeroSection />
       <HowItWorks />
       <FeaturesSection />
