@@ -9,22 +9,24 @@ type TutorCardProps = {
     bio?: string
     subjects?: string[]
     isActive: boolean
-
     ratingTotal?: number
     ratingCount?: number
   }
   hasPending?: boolean
-  onRequest: () => void
+  onRequest?: () => void
+  /** When true, hide actions and show "This is how students see you" (e.g. on tutor profile page). */
+  preview?: boolean
 }
 
 export default function TutorCard({
   tutor,
   hasPending = false,
   onRequest,
+  preview = false,
 }: TutorCardProps) {
-  const initial = tutor.name.charAt(0).toUpperCase()
+  const initial = (tutor.name || "?").charAt(0).toUpperCase()
 
-  const isDisabled = !tutor.isActive || hasPending
+  const isDisabled = !preview && (!tutor.isActive || hasPending)
 
   const buttonLabel = hasPending
     ? "Request Pending"
@@ -121,30 +123,36 @@ export default function TutorCard({
       {/* Spacer */}
       <div className="flex-grow" />
 
-      {/* Actions */}
-      <div className="mt-6 flex gap-2">
-        <Link
-          href={`/dashboard/student/tutors/${tutor.id}/reviews`}
-          className="
-            flex-1 text-center rounded-xl border px-3 py-2.5 text-sm font-medium
-            text-slate-700 hover:bg-slate-50 transition
-          "
-        >
-          View Reviews
-        </Link>
+      {/* Preview caption or Actions */}
+      {preview ? (
+        <p className="mt-6 text-sm text-slate-500 italic">
+          This is how students see you.
+        </p>
+      ) : (
+        <div className="mt-6 flex gap-2">
+          <Link
+            href={`/dashboard/student/tutors/${tutor.id}/reviews`}
+            className="
+              flex-1 text-center rounded-xl border px-3 py-2.5 text-sm font-medium
+              text-slate-700 hover:bg-slate-50 transition
+            "
+          >
+            View Reviews
+          </Link>
 
-        <button
-          onClick={onRequest}
-          disabled={isDisabled}
-          className={`flex-1 rounded-xl py-2.5 font-medium transition ${
-            isDisabled
-              ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-              : "bg-indigo-600 text-white hover:bg-indigo-700"
-          }`}
-        >
-          {buttonLabel}
-        </button>
-      </div>
+          <button
+            onClick={onRequest}
+            disabled={isDisabled}
+            className={`flex-1 rounded-xl py-2.5 font-medium transition ${
+              isDisabled
+                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+                : "bg-indigo-600 text-white hover:bg-indigo-700"
+            }`}
+          >
+            {buttonLabel}
+          </button>
+        </div>
+      )}
     </div>
   )
 }
