@@ -37,7 +37,7 @@ export default function DashboardSidebar({ role }: Props) {
             icon: faComments,
           },
           {
-            label: "Profile",
+            label: "Edit Profile",
             href: "/dashboard/tutor/profile",
             icon: faUserPen,
           },
